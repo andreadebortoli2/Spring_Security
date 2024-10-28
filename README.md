@@ -6,3 +6,4 @@ Parts:
 - Default login form
 - SessionID
 - username and password in application properties
+- CSRF
