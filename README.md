@@ -7,3 +7,5 @@ Parts:
 - SessionID
 - username and password in application properties
 - CSRF
+- same site strict
+- 
