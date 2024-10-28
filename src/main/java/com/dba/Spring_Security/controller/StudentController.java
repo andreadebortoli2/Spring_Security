@@ -32,8 +32,9 @@ public class StudentController {
     }
 
     @PostMapping("students")
-    public void addStudent(@RequestBody Student student) {
+    public String addStudent(@RequestBody Student student) {
         students.add(student);
+        return "Student added";
     }
 
 }

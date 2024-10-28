@@ -8,4 +8,5 @@ Parts:
 - username and password in application properties
 - CSRF
 - same site strict
+- security config stateless session
 - 
