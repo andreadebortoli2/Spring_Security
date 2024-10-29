@@ -76,7 +76,7 @@ public class SecurityConfig {
     UserDetailsService userDetailsService() {
         UserDetails user = User
                 .withDefaultPasswordEncoder() // deprecated, use only for demos
-                .username("andy")
+                .username("john")
                 .password("123456")
                 .roles("USER")
                 .build();

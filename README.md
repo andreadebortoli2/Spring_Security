@@ -9,4 +9,5 @@ Parts:
 - CSRF
 - same site strict
 - security config stateless session
+- users in app memory
 - 
