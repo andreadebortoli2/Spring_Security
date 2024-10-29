@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 // import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 // import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,10 +26,11 @@ public class SecurityConfig {
         // * LAMBDA version
         http.csrf(customizer -> customizer.disable()) // disable csrf
                 .authorizeHttpRequests(req -> req.anyRequest().authenticated()) // enable auth for all requests
-                .formLogin(Customizer.withDefaults()) // add form for auth
+                // .formLogin(Customizer.withDefaults()) // add form for auth, without the
+                // browser present an alert to insert username and password
                 .httpBasic(Customizer.withDefaults()) // add basic auth logic
+                // make session stateless
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        // make session stateless
 
         // * extended version
         /*
@@ -66,4 +71,24 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    UserDetailsService userDetailsService() {
+        UserDetails user = User
+                .withDefaultPasswordEncoder() // deprecated, use only for demos
+                .username("andy")
+                .password("123456")
+                .roles("USER")
+                .build();
+
+        UserDetails admin = User
+                .withDefaultPasswordEncoder()
+                .username("admin")
+                .password("456789")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
+    }
+
 }
