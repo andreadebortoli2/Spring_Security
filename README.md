@@ -18,4 +18,4 @@ Parts:
   - BCrypt encoding
 - JWT
   - generate token
-  - 
+  - validate token with filter
