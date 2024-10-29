@@ -3,6 +3,7 @@ package com.dba.Spring_Security.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dba.Spring_Security.model.User;
+import com.dba.Spring_Security.service.JwtService;
 import com.dba.Spring_Security.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class UserController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private JwtService jwtService;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
@@ -37,7 +40,7 @@ public class UserController {
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         if (authentication.isAuthenticated())
-            return "Success";
+            return jwtService.generateToken(user.getUsername());
         else
             return "Login Failed";
     }
