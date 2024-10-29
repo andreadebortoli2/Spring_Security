@@ -10,4 +10,7 @@ Parts:
 - same site strict
 - security config stateless session
 - users in app memory
-- 
+- users from database
+  - authentication provider
+  - user details service
+  - principals
