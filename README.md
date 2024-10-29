@@ -14,3 +14,5 @@ Parts:
   - authentication provider
   - user details service
   - principals
+- user registration
+  - 
