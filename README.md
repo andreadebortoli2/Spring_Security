@@ -15,4 +15,4 @@ Parts:
   - user details service
   - principals
 - user registration
-  - 
+  - BCrypt encoding
