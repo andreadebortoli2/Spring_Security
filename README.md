@@ -16,3 +16,6 @@ Parts:
   - principals
 - user registration
   - BCrypt encoding
+- JWT
+  - generate token
+  - 
