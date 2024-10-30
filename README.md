@@ -19,3 +19,6 @@ Parts:
 - JWT
   - generate token
   - validate token with filter
+- OAuth2
+  - with Google
+  - with GitHub

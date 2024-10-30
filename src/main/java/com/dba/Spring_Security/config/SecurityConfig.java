@@ -8,13 +8,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-// import org.springframework.security.config.Customizer;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 // import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 // import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 // import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
+// import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.core.userdetails.User;
@@ -23,7 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 // import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,8 +32,8 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtFilter jwtFilter;
+    // @Autowired
+    // private JwtFilter jwtFilter;
 
     @Bean
     AuthenticationProvider authenticationProvider() {
@@ -55,14 +55,20 @@ public class SecurityConfig {
         http.csrf(customizer -> customizer.disable()) // disable csrf
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("register", "login")
-                        .permitAll().anyRequest().authenticated())
-                // enable auth for all requests except for the one that match the path provided
-                // .formLogin(Customizer.withDefaults()) // add form for auth, without the
-                // browser present an alert to insert username and password
-                // .httpBasic(Customizer.withDefaults()) // add basic auth logic
-                // make session stateless
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                // * enable auth for all requests except for the one that match the path
+                // provided
+                // .formLogin(Customizer.withDefaults()) // * add form for auth, without the
+                // * browser present an alert to insert username and password
+                // .httpBasic(Customizer.withDefaults()) // * add basic auth logic
+                // * make session stateless
+                // .sessionManagement(session ->
+                // session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                // * OAuth2 (instead of stateless session and jwt)-(**remove same site strict**)
+                .oauth2Login(Customizer.withDefaults());
 
         // * extended version
         /*
@@ -104,27 +110,29 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // @Bean
-    // UserDetailsService userDetailsService() {
-    // UserDetails user = User
-    // .withDefaultPasswordEncoder() // deprecated, use only for demos
-    // .username("john")
-    // .password("123456")
-    // .roles("USER")
-    // .build();
-
-    // UserDetails admin = User
-    // .withDefaultPasswordEncoder()
-    // .username("admin")
-    // .password("456789")
-    // .roles("ADMIN")
-    // .build();
-
-    // return new InMemoryUserDetailsManager(user, admin);
-    // }
+    /*
+     * @Bean
+     * UserDetailsService userDetailsService() {
+     * UserDetails user = User
+     * .withDefaultPasswordEncoder() // deprecated, use only for demos
+     * .username("john")
+     * .password("123456")
+     * .roles("USER")
+     * .build();
+     * 
+     * UserDetails admin = User
+     * .withDefaultPasswordEncoder()
+     * .username("admin")
+     * .password("456789")
+     * .roles("ADMIN")
+     * .build();
+     * 
+     * return new InMemoryUserDetailsManager(user, admin);
+     * }
+     */
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
